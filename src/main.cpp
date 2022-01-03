@@ -7,20 +7,13 @@ using namespace std;
 
 int init_cpp() {
 	clear();
-	print_green("Initializing C++\n");
+	info("Initializing C++\n");
 	print_cyan("What is the name of the project? ");
 	string name;
 	cin.sync();
 	cin >> name;
 	if (name.length() == 0) {
 		error("Invalid name");
-	}
-	print_cyan("What is the name of the author? ");
-	string author;
-	cin.sync();
-	cin >> author;
-	if (author.length() == 0) {
-		error("Invalid author name\n");
 	}
 	print_cyan("What is the name of the main file? (main.cpp) ");
 	string main_file;
@@ -100,7 +93,7 @@ int init_cpp() {
 		fprintf(fptr, "%s", "#include <iostream>\n");
 		fprintf(fptr, "%s", "\n");
 		fprintf(fptr, "%s", "int main() {\n");
-		fprintf(fptr, "%s", "\treturn 0;\n");
+		fprintf(fptr, "%s", "	return 0;\n");
 		fprintf(fptr, "%s", "}\n");
 		fclose(fptr);
 	}
@@ -139,8 +132,9 @@ int init_cpp() {
 			fclose(fptr);
 		}
 	}
-	info("Creating the git repository");
+	
 	if (git == "y") {
+		info("Creating the git repository");
 		print_cyan("Whats the git repo? (link)");
 		string git_repo;
 		cin.sync();
@@ -150,8 +144,7 @@ int init_cpp() {
 		}
 
 		stringstream command;
-		command << "git init " << project_path << " && git remote add origin " << git_repo << " && git pull origin master";
-
+		command << "cd " << project_path <<  "git init " << " && git remote add origin " << git_repo << " && git pull origin master";
 		system(command.str().c_str());
 
 	}
@@ -161,7 +154,7 @@ int init_cpp() {
 
 int init_c() {
 	clear();
-	print_green("Initializing C++\n");
+	info("Initializing C\n");
 
 	print_cyan("What is the name of the project? ");
 	string name;
@@ -170,19 +163,12 @@ int init_c() {
 	if (name.length() == 0) {
 		error("Invalid name");
 	}
-	print_cyan("What is the name of the author? ");
-	string author;
-	cin.sync();
-	cin >> author;
-	if (author.length() == 0) {
-		error("Invalid author name\n");
-	}
 	print_cyan("What is the name of the main file? (main.c) ");
 	string main_file;
 	cin.sync();
 	cin >> main_file;
-	if (main_file.length() < 4) {
-		main_file = "main.cpp";
+	if (main_file.length() < 2) {
+		main_file = "main.c";
 		warn("Invalid main file name, using default\n");
 	}
 
@@ -235,10 +221,10 @@ int init_c() {
 	}
 	else {
 		fprintf(fptr, "%s", "#include <stdio.h>\n");
-		fprintf(fptr, "%s", "#include <iostream>\n");
 		fprintf(fptr, "%s", "\n");
 		fprintf(fptr, "%s", "int main() {\n");
-		fprintf(fptr, "%s", "\treturn 0;\n");
+		fprintf(fptr, "%s", "	printf(\"Hello, World\");\n");
+		fprintf(fptr, "%s", "	return 0;\n");
 		fprintf(fptr, "%s", "}\n");
 		fclose(fptr);
 	}
@@ -275,21 +261,149 @@ int init_c() {
 			fprintf(fptr, "%s", ("add_executable(" + name + " ${SOURCE_FILES})\n").c_str());
 			fclose(fptr);
 		}
-	
-
-	print_green("Project created\n");
 	}
-	return 0;
-}
+	//ask for git repo
+	print_cyan("Do you want to use git? (y/n) ");
+	string git;
+	cin.sync();
+	cin >> git;
+	if (git == "y") {
+		info("Creating the git repository");
+		print_cyan("Whats the git repo? (link)");
+		string git_repo;
+		cin.sync();
+		cin >> git_repo;
+		if (git_repo.length() == 0) {
+			error("Invalid git repo");
+		}
 
-int init_java() {
-	todo();
-	return 0;
+		stringstream command;
+		command << "cd " << project_path <<  "git init " << " && git remote add origin " << git_repo << " && git pull origin master";
+		system(command.str().c_str());
+	}
+	success("Project created");
+	print_green("Project created\n");
+	return (0);
 }
 
 int init_python() {
-	todo();
-	return 0;
+	clear();
+	info("Initializing Python\n");
+
+	print_cyan("What is the name of the project? ");
+	string name;
+	cin.sync();
+	cin >> name;
+	if (name.length() == 0) {
+		error("Invalid name");
+	}
+	print_cyan("What is the name of the main file? (main.py) ");
+	string main_file;
+	cin.sync();
+	cin >> main_file;
+	if (main_file.length() < 3) {
+		main_file = "main.py";
+		warn("Invalid main file name, using default\n");
+	}
+	print_cyan("What interperter do you want to use ? (python3) (`help` for help) ");
+	string compiler;
+	cin >> compiler;
+
+	if (compiler == "python3") {
+		compiler = "python3";
+	} else if (compiler == "python2") {
+		compiler = "python2";
+	} else if (compiler == "python") {
+		compiler = "python";
+	} else if (compiler == "help") {
+		print_green("avialable options:\npython3\npython2\npython\n");
+		return (0);
+	} else {
+		error("Invalid interperter\n");
+	}
+
+	//git respository
+	print_cyan("Do you want to create a git respository? (y/n) ");
+	string git;
+	cin.sync();
+	cin >> git;
+	if (git == "y") {
+		git = "y";
+	} else if (git == "n") {
+		git = "n";
+	} else {
+		error("Invalid git respository\n");
+	}
+
+	string project_path = name;
+	if (filesystem::exists(project_path)) {
+		print_red("Project already exists\n");
+		return 1;
+	}
+	filesystem::create_directory(project_path);
+
+	string src_path = project_path + "/src";
+	filesystem::create_directory(src_path);
+
+	string main_path = src_path + "/" + main_file;
+	FILE *fptr;
+	if ((fptr = fopen(main_path.c_str(), "w")) == NULL) {
+		error("Error opening the file\n");
+	}
+	else {
+		#ifndef _WIN32
+			fprintf(fptr, "%s", ("#!/usr/bin/env " + compiler + "\n").c_str());
+		#endif 
+		fprintf(fptr, "%s", "\n");
+		fprintf(fptr, "%s", "print(\"Hello, World\")\n");
+		fclose(fptr);
+	}
+
+	//Build system
+	#ifndef _WIN32
+		string path = "run.sh";
+		if ((fptr = fopen(path.c_str(), "w")) == NULL) {
+			error("Error opening the file\n");
+		}
+		else {
+			fprintf(fptr, "%s", ("#!/bin/bash\n"));
+			fprintf(fptr, "%s", ("\n"));
+			fprintf(fptr, "%s", ("cd src\n"));
+			fprintf(fptr, "%s", ("\n"));
+			fprintf(fptr, "%s", (compiler + main_file + "\n").c_str());
+			fclose(fptr);
+			success("run.sh created");
+		}
+	#endif
+	#ifdef _WIN32
+		string path = project_path + "/run.bat";
+		if ((fptr = fopen(path.c_str(), "w")) == NULL) {
+			error("Error opening the file\n");
+		}
+		else {
+			fprintf(fptr, "%s", ("@echo off\n"));
+			fprintf(fptr, "%s", ("\n"));
+			fprintf(fptr, "%s", (compiler + " src/" + main_file + "\n").c_str());
+			fclose(fptr);
+			success("run.bat created");
+		}
+	#endif
+	//check for git
+	if (git == "y") {
+		info("Creating the git repository");
+		print_cyan("Whats the git repo? (link)");
+		string git_repo;
+		cin.sync();
+		cin >> git_repo;
+		if (git_repo.length() == 0) {
+			error("Invalid git repo");
+		}
+
+		stringstream command;
+		command << "cd " << project_path <<  "git init " << " && git remote add origin " << git_repo << " && git pull origin master";
+		system(command.str().c_str());
+	}
+	return (0);
 }
 
 int init_go() {
@@ -324,18 +438,15 @@ int main(int argc, char* argv[]) {
 	print_green(" C\n");
 
 	print_yellow("[3]");
-	print_green(" Java\n");
-
-	print_yellow("[4]");
 	print_green(" Python\n");
 
-	print_yellow("[5]");
+	print_yellow("[4]");
 	print_green(" Go\n");
 
-	print_yellow("[6]");
+	print_yellow("[5]");
 	print_green(" Rust\n");
 
-	print_yellow("[7]");
+	print_yellow("[6]");
 	print_green(" C#\n");
 
 	print_yellow("[q]");
@@ -350,18 +461,15 @@ int main(int argc, char* argv[]) {
 				init_c();
 				break;
 			case '3':
-				init_java();
-				break;
-			case '4':
 				init_python();
 				break;
-			case '5':
+			case '4':
 				init_go();
 				break;
-			case '6':
+			case '5':
 				init_rust();
 				break;
-			case '7':
+			case '6':
 				init_csharp();
 				break;
 			case 'q':
