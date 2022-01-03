@@ -1,5 +1,5 @@
 CXX=g++
-CXXFLAGS=-Wall -Wextra -Wpedantic -std=c++17 -pedantic -fno-exceptions -ggdb -static
+CXXFLAGS=-Wall -Wextra -Wswitch-enum -Werror -Wpedantic -std=c++17 -pedantic -fno-exceptions -ggdb -static
 FILES=src/main.cpp
 OUTPUT=out/main
 

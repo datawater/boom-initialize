@@ -1,0 +1,104 @@
+In file included from src/main.cpp:1:
+src/include/main.hpp: In function 'void error(const char*)':
+src/include/main.hpp:50:26: error: invalid operands of types 'const char [9]' and 'const char*' to binary 'operator+'
+   50 |     print_red("[Error] " + text + "\n");
+      |               ~~~~~~~~~~ ^ ~~~~
+      |               |            |
+      |               |            const char*
+      |               const char [9]
+src/include/main.hpp: In function 'void warn(const char*)':
+src/include/main.hpp:55:31: error: invalid operands of types 'const char [11]' and 'const char*' to binary 'operator+'
+   55 |     print_yellow("[Warning] " + text + "\n");
+      |                  ~~~~~~~~~~~~ ^ ~~~~
+      |                  |              |
+      |                  |              const char*
+      |                  const char [11]
+src/include/main.hpp: In function 'void info(const char*)':
+src/include/main.hpp:59:26: error: invalid operands of types 'const char [8]' and 'const char*' to binary 'operator+'
+   59 |     print_blue("[Info] " + text + "\n");
+      |                ~~~~~~~~~ ^ ~~~~
+      |                |           |
+      |                |           const char*
+      |                const char [8]
+src/include/main.hpp: In function 'void success(const char*)':
+src/include/main.hpp:63:30: error: invalid operands of types 'const char [11]' and 'const char*' to binary 'operator+'
+   63 |     print_green("[Success] " + text + "\n");
+      |                 ~~~~~~~~~~~~ ^ ~~~~
+      |                 |              |
+      |                 |              const char*
+      |                 const char [11]
+src/main.cpp: In function 'int init_cpp()':
+src/main.cpp:116:41: warning: format '%s' expects argument of type 'char*', but argument 3 has type 'std::__cxx11::basic_string<char>' [-Wformat=]
+  116 |                         fprintf(fptr, "%s", "CC = " + compiler + "\n");
+      |                                        ~^   ~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                         |                      |
+      |                                         char*                  std::__cxx11::basic_string<char>
+src/main.cpp:121:41: warning: format '%s' expects argument of type 'char*', but argument 3 has type 'std::__cxx11::basic_string<char>' [-Wformat=]
+  121 |                         fprintf(fptr, "%s", "EXEC = " + name + "\n");
+      |                                        ~^   ~~~~~~~~~~~~~~~~~~~~~~~
+      |                                         |                    |
+      |                                         char*                std::__cxx11::basic_string<char>
+src/main.cpp:143:41: warning: format '%s' expects argument of type 'char*', but argument 3 has type 'std::__cxx11::basic_string<char>' [-Wformat=]
+  143 |                         fprintf(fptr, "%s", "project(" + name + ")\n");
+      |                                        ~^   ~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                         |                     |
+      |                                         char*                 std::__cxx11::basic_string<char>
+src/main.cpp:146:41: warning: format '%s' expects argument of type 'char*', but argument 3 has type 'std::__cxx11::basic_string<char>' [-Wformat=]
+  146 |                         fprintf(fptr, "%s", "add_executable(" + name + " ${SOURCE_FILES})\n");
+      |                                        ~^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                         |                            |
+      |                                         char*                        std::__cxx11::basic_string<char>
+src/main.cpp:159:99: error: cannot convert 'std::__cxx11::basic_string<char>' to 'const char*'
+  159 |                 system("cd " + project_path + " && git init && git remote add origin " + git_repo + " && git pull origin master");
+      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                                                                                   |
+      |                                                                                                   std::__cxx11::basic_string<char>
+In file included from c:\programdata\chocolatey\lib\mingw\tools\install\mingw64\x86_64-w64-mingw32\include\pthread.h:66,
+                 from c:\programdata\chocolatey\lib\mingw\tools\install\mingw64\include\c++\11.2.0\x86_64-w64-mingw32\bits\gthr-default.h:35,
+                 from c:\programdata\chocolatey\lib\mingw\tools\install\mingw64\include\c++\11.2.0\x86_64-w64-mingw32\bits\gthr.h:148,
+                 from c:\programdata\chocolatey\lib\mingw\tools\install\mingw64\include\c++\11.2.0\ext\atomicity.h:35,
+                 from c:\programdata\chocolatey\lib\mingw\tools\install\mingw64\include\c++\11.2.0\bits\ios_base.h:39,
+                 from c:\programdata\chocolatey\lib\mingw\tools\install\mingw64\include\c++\11.2.0\ios:42,
+                 from c:\programdata\chocolatey\lib\mingw\tools\install\mingw64\include\c++\11.2.0\ostream:38,
+                 from c:\programdata\chocolatey\lib\mingw\tools\install\mingw64\include\c++\11.2.0\iostream:39,
+                 from src/include/main.hpp:2,
+                 from src/main.cpp:1:
+c:\programdata\chocolatey\lib\mingw\tools\install\mingw64\x86_64-w64-mingw32\include\process.h:95:34: note:   initializing argument 1 of 'int system(const char*)'
+   95 |   int __cdecl system(const char *_Command);
+      |                      ~~~~~~~~~~~~^~~~~~~~
+src/main.cpp: In function 'int init_c()':
+src/main.cpp:257:41: warning: format '%s' expects argument of type 'char*', but argument 3 has type 'std::__cxx11::basic_string<char>' [-Wformat=]
+  257 |                         fprintf(fptr, "%s", "CC = " + compiler + "\n");
+      |                                        ~^   ~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                         |                      |
+      |                                         char*                  std::__cxx11::basic_string<char>
+src/main.cpp:259:41: warning: format '%s' expects argument of type 'char*', but argument 3 has type 'std::__cxx11::basic_string<char>' [-Wformat=]
+  259 |                         fprintf(fptr, "%s", "SRC =" "src/" + main_file + "\n");
+      |                                        ~^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                         |                              |
+      |                                         char*                          std::__cxx11::basic_string<char>
+src/main.cpp:262:41: warning: format '%s' expects argument of type 'char*', but argument 3 has type 'std::__cxx11::basic_string<char>' [-Wformat=]
+  262 |                         fprintf(fptr, "%s", "EXEC = " + name + "\n");
+      |                                        ~^   ~~~~~~~~~~~~~~~~~~~~~~~
+      |                                         |                    |
+      |                                         char*                std::__cxx11::basic_string<char>
+src/main.cpp:284:41: warning: format '%s' expects argument of type 'char*', but argument 3 has type 'std::__cxx11::basic_string<char>' [-Wformat=]
+  284 |                         fprintf(fptr, "%s", "project(" + name + ")\n");
+      |                                        ~^   ~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                         |                     |
+      |                                         char*                 std::__cxx11::basic_string<char>
+src/main.cpp:286:41: warning: format '%s' expects argument of type 'char*', but argument 3 has type 'std::__cxx11::basic_string<char>' [-Wformat=]
+  286 |                         fprintf(fptr, "%s", "set(SOURCE_FILES src/" + main_file + ")\n");
+      |                                        ~^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                         |                                       |
+      |                                         char*                                   std::__cxx11::basic_string<char>
+src/main.cpp:287:41: warning: format '%s' expects argument of type 'char*', but argument 3 has type 'std::__cxx11::basic_string<char>' [-Wformat=]
+  287 |                         fprintf(fptr, "%s", "add_executable(" + name + " ${SOURCE_FILES})\n");
+      |                                        ~^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                         |                            |
+      |                                         char*                        std::__cxx11::basic_string<char>
+src/main.cpp: In function 'int init_cpp()':
+src/main.cpp:163:1: warning: control reaches end of non-void function [-Wreturn-type]
+  163 | }
+      | ^
+make: *** [Makefile:9: main] Error 1

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <iostream>
+#include <sstream>
 
 void print_red(const char *text) {
     printf("\033[0;31m");
@@ -44,4 +45,29 @@ void clear() {
 void todo() {
     print_red("Not implemented yet\n");
     exit(1);
+}
+
+void error(const char *text) {
+    std::stringstream ss;
+    ss << "[Error] " << text << "\n";
+    print_red(ss.str().c_str());
+    exit(1);
+}
+
+void warn(const char *text) {
+    std::stringstream ss;
+    ss << "[Warning] " << text << "\n";
+    print_yellow(ss.str().c_str());
+}
+
+void info(const char *text) {
+    std::stringstream ss;
+    ss << "[Info] " << text << "\n";
+    print_blue(ss.str().c_str());
+}
+
+void success(const char *text) {
+    std::stringstream ss;
+    ss << "[Success] " << text << "\n";
+    print_green(ss.str().c_str());
 }
