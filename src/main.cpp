@@ -537,6 +537,9 @@ int init_csharp() {
 
 int main(int argc, char* argv[]) {
 
+	//TODO: #3 Documentate the code
+	//TODO: #4 (Less important) Implement more languages
+
 	(void)argc;
 	(void)argv;
 
