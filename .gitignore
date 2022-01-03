@@ -1,2 +1,4 @@
 out/
 push
+.vscode/
+workspace.code-workspace
