@@ -1,17 +1,27 @@
 CXX=g++
-CXXFLAGS=-Wall -Werror -Wextra -std=c++17 -pedantic -fno-exceptions -ggdb -static
-FILES=main.cpp
+CXXFLAGS=-Wall -Wextra -Wpedantic -std=c++17 -pedantic -fno-exceptions -ggdb -static
+FILES=src/main.cpp
 OUTPUT=out/main
 
 main:
-	$(CXX) $(CXXFLAGS) $(FILES) -o $(OUTPUT)
-	chmod +x ./out/main
+	@echo "Compiling..."
+	@echo "[CMD] ${CXX} ${CXXFLAGS} ${FILES} -o ${OUTPUT}"
+	@$(CXX) $(CXXFLAGS) $(FILES) -o $(OUTPUT)
+	@echo "[CMD] chmod +x ./${OUTPUT}"
+	@chmod +x ./$(OUTPUT)
 
 run:
-	$(CXX) $(CXXFLAGS) $(FILES) -o $(OUTPUT)
-	chmod +x ./out/main
-	./out/main
+	@echo "Compiling and running..."
+
+	@echo "[CMD] ${CXX} ${CXXFLAGS} ${FILES} -o ${OUTPUT}"
+	@$(CXX) $(CXXFLAGS) $(FILES) -o $(OUTPUT)
+	@echo "[CMD] chmod +x ./${OUTPUT}"
+	@chmod +x ./$(OUTPUT)
+	@echo "[CMD] ./${OUTPUT}"
+	@./$(OUTPUT)
 
 just_run:
-	./out/main
+	@echo "Running..."
+	@echo "[CMD] ./${OUTPUT}"
+	@./$(OUTPUT)
 
