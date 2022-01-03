@@ -407,18 +407,132 @@ int init_python() {
 }
 
 int init_go() {
-	todo();
-	return 0;
+	clear();
+	info("Initializing Go\n");
+
+	print_cyan("What is the name of the project? ");
+	string name;
+	cin.sync();
+	cin >> name;
+	if (name.length() == 0) {
+		error("Invalid name");
+	}
+	print_cyan("What is the name of the main file? (main.go) ");
+	string main_file;
+	cin.sync();
+	cin >> main_file;
+	if (main_file.length() < 3) {
+		main_file = "main.go";
+		warn("Invalid main file name, using default\n");
+	}
+	
+	string project_path = name;
+	if (filesystem::exists(project_path)) {
+		error("Project already exists\n");
+	}
+
+	filesystem::create_directory(project_path);
+	filesystem::create_directory(project_path + "/src");
+
+	print_cyan("Whats the go repo? (link)");
+	string go_repo;
+	cin.sync();
+	cin >> go_repo;
+	if (go_repo.length() == 0) {
+		error("Invalid go repo");
+	}
+
+	print_cyan("Do you want to create a git respository? (y/n) ");
+	string git;
+	cin.sync();
+	cin >> git;
+	if (git == "y") {
+		git = "y";
+	} else if (git == "n") {
+		git = "n";
+	} else {
+		error("Invalid Option\n");
+	}
+
+	stringstream command_go;
+	command_go << "cd " << project_path << "&& go mod init " << go_repo;
+	system(command_go.str().c_str());
+
+	string main_path = project_path + "/" + main_file;
+	FILE *fptr;
+
+	if ((fptr = fopen(main_path.c_str(), "w")) == NULL) {
+		error("Error opening the file\n");
+	}
+	else {
+		fprintf(fptr, "%s", ("package main\n"));
+		fprintf(fptr, "%s", ("\n"));
+		fprintf(fptr, "%s", ("import \"fmt\"\n"));
+		fprintf(fptr, "%s", ("func main() {\n"));
+		fprintf(fptr, "%s", "	fmt.Println(\"Hello, World\")\n");
+		fprintf(fptr, "%s", ("}\n"));
+		fclose(fptr);
+		success("main.go created");
+	}
+
+	#ifndef _WIN32
+		string path = project_path + "/run.sh";
+		if ((fptr = fopen(path.c_str(), "w")) == NULL) {
+			error("Error opening the file\n");
+		}
+		else {
+			fprintf(fptr, "%s", ("#!/bin/bash\n"));
+			fprintf(fptr, "%s", ("\n"));
+			fprintf(fptr, "%s", ("go build src/\n"));
+			fprintf(fptr, "%s", ("go run src/\n"));
+			fclose(fptr);
+			success("run.sh created");
+		}
+
+	#endif
+	#ifdef _WIN32
+		string path = project_path + "/run.bat";
+		if ((fptr = fopen(path.c_str(), "w")) == NULL) {
+			error("Error opening the file\n");
+		}
+		else {
+			fprintf(fptr, "%s", ("@echo off\n"));
+			fprintf(fptr, "%s", ("\n"));
+			fprintf(fptr, "%s", ("go build\n"));
+			fprintf(fptr, "%s", ("go run"));
+			fclose(fptr);
+			success("run.bat created");
+		}
+	#endif
+
+	if (git == "y") {
+		info("Creating the git repository");
+		print_cyan("Whats the git repo? (link)");
+		string git_repo;
+		cin.sync();
+		cin >> git_repo;
+		if (git_repo.length() == 0) {
+			error("Invalid git repo");
+		}
+
+		stringstream command;
+		command << "cd " << project_path <<  "git init " << " && git remote add origin " << git_repo << " && git pull origin master";
+		system(command.str().c_str());
+	}
+
+	return (0);
 }
 
 int init_rust() {
+	//TODO: #1 Implement rust
 	todo();
-	return 0;
+	return (0);
 }
 
 int init_csharp() {
+	//TODO: #2 Implement csharp
 	todo();
-	return 0;
+	return (0);
 }
 
 int main(int argc, char* argv[]) {
