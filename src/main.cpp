@@ -3,6 +3,9 @@
 #include <string.h>
 #include <filesystem>
 
+#define TODO print_red("Not implemented yet\n"); exit(1);
+#define sstream stringstream
+
 using namespace std;
 
 int init_cpp() {
@@ -143,7 +146,7 @@ int init_cpp() {
 			error("Invalid git repo");
 		}
 
-		stringstream command;
+		sstream command;
 		command << "cd " << project_path <<  "git init " << " && git remote add origin " << git_repo << " && git pull origin master";
 		system(command.str().c_str());
 
@@ -277,12 +280,11 @@ int init_c() {
 			error("Invalid git repo");
 		}
 
-		stringstream command;
+		sstream command;
 		command << "cd " << project_path <<  "git init " << " && git remote add origin " << git_repo << " && git pull origin master";
 		system(command.str().c_str());
 	}
 	success("Project created");
-	print_green("Project created\n");
 	return (0);
 }
 
@@ -399,10 +401,11 @@ int init_python() {
 			error("Invalid git repo");
 		}
 
-		stringstream command;
+		sstream command;
 		command << "cd " << project_path <<  "git init " << " && git remote add origin " << git_repo << " && git pull origin master";
 		system(command.str().c_str());
 	}
+	success("Project created");
 	return (0);
 }
 
@@ -454,7 +457,7 @@ int init_go() {
 		error("Invalid Option\n");
 	}
 
-	stringstream command_go;
+	sstream command_go;
 	command_go << "cd " << project_path << "&& go mod init " << go_repo;
 	system(command_go.str().c_str());
 
@@ -515,33 +518,150 @@ int init_go() {
 			error("Invalid git repo");
 		}
 
-		stringstream command;
+		sstream command;
 		command << "cd " << project_path <<  "git init " << " && git remote add origin " << git_repo << " && git pull origin master";
 		system(command.str().c_str());
 	}
+	success("Go project created");
 
 	return (0);
 }
 
 int init_rust() {
-	//TODO: #1 Implement rust
-	todo();
+
+	clear();
+	info("Initializing Rust\n");
+
+	print_cyan("What is the name of the project? ");
+	string name;
+	cin.sync();
+	cin >> name;
+	if (name.length() == 0) {
+		error("Invalid name");
+	}
+
+	string project_path = name;
+	if (filesystem::exists(project_path)) {
+		error("Project already exists\n");
+	}
+
+	filesystem::create_directory(project_path);
+
+	sstream command;
+	command << "cd " << name << "&& cargo init -q --bin --offline";
+
+	system(command.str().c_str());
+
+	success("Rust project created");
+
 	return (0);
 }
 
 int init_csharp() {
-	//TODO: #2 Implement csharp
-	todo();
+
+	clear();
+	info("Initializing C#\n");
+	
+	print_cyan("What is the name of the project? ");
+	string name;
+	cin.sync();
+	cin >> name;
+
+	if (name.length() == 0) {
+		error("Invalid name");
+	}
+
+	string project_path = name;
+	if (filesystem::exists(project_path)) {
+		error("Project already exists\n");
+	}
+
+	filesystem::create_directory(project_path);
+	filesystem::create_directory(project_path + "/src");
+
+	string main_path = project_path + "/src/Main.cs";
+	FILE *fptr;
+
+	if ((fptr = fopen(main_path.c_str(), "w")) == NULL) {
+		error("Error opening the file\n");
+	}
+	else {
+		fprintf(fptr, "%s", ("using System;\n"));
+		fprintf(fptr, "%s", ("\n"));
+		fprintf(fptr, "%s", ("namespace Main {\n"));
+		fprintf(fptr, "%s", ("\n"));
+		fprintf(fptr, "%s", ("    class Program {\n"));
+		fprintf(fptr, "%s", ("\n"));
+		fprintf(fptr, "%s", ("        static void Main(string[] args) {\n"));
+		fprintf(fptr, "%s", ("\n"));
+		fprintf(fptr, "%s", ("            Console.WriteLine(\"Hello, World\");\n"));
+		fprintf(fptr, "%s", ("\n"));
+		fprintf(fptr, "%s", ("        }\n"));
+		fprintf(fptr, "%s", ("\n"));
+		fprintf(fptr, "%s", ("    }\n"));
+		fprintf(fptr, "%s", ("\n"));
+		fprintf(fptr, "%s", ("}\n"));
+		fclose(fptr);
+		success("Main.cs created");
+	}
+
+	#ifdef _WIN32
+		string path = project_path + "/run.bat";
+		if ((fptr = fopen(path.c_str(), "w")) == NULL) {
+			error("Error opening the file\n");
+		}
+		else {
+			fprintf(fptr, "%s", ("@echo off\n"));
+			fprintf(fptr, "%s", ("\n"));
+			fprintf(fptr, "%s", ("csc /out:bin/Main.exe src/Main.cs\n"));
+			fprintf(fptr, "%s", ("bin/Main.exe"));
+			fclose(fptr);
+			success("run.bat created");
+		}
+	#endif
+	#ifndef _WIN32
+		string path = project_path + "/run.sh";
+		if ((fptr = fopen(path.c_str(), "w")) == NULL) {
+			error("Error opening the file\n");
+		}
+		else {
+			fprintf(fptr, "%s", ("#!/bin/bash\n"));
+			fprintf(fptr, "%s", ("\n"));
+			fprintf(fptr, "%s", ("csc /out:bin/Main.exe src/Main.cs\n"));
+			fprintf(fptr, "%s", ("bin/Main.exe"));
+			fclose(fptr);
+			success("run.sh created");
+		}
+	#endif
+
+	//ask if you want to create the git repo
+	print_cyan("Do you want to create a git repo? (y/n) ");
+	string git;
+	cin.sync();
+	cin >> git;
+
+	if (git == "y") {
+		info("Creating the git repository");
+		print_cyan("Whats the git repo? (link)");
+		string git_repo;
+		cin.sync();
+		cin >> git_repo;
+		if (git_repo.length() == 0) {
+			error("Invalid git repo");
+		}
+
+		sstream command;
+		command << "cd " << project_path <<  "git init " << " && git remote add origin " << git_repo << " && git pull origin master";
+		system(command.str().c_str());
+	}
+
+	success("C# project created");
 	return (0);
 }
 
-int main(int argc, char* argv[]) {
-
-	//TODO: #3 Documentate the code
+int main() {
+	
 	//TODO: #4 (Less important) Implement more languages
-
-	(void)argc;
-	(void)argv;
 
 	clear();
 
